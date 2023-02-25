@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.musicserver.mapper.RankListMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.example.musicserver.model.domain.RankList">
+        <id column="id" property="id" />
+        <result column="songListId" property="songListId" />
+        <result column="consumerId" property="consumerId" />
+        <result column="score" property="score" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+<!--    <sql id="Base_Column_List">-->
+<!--        id, songListId, consumerId, score-->
+<!--    </sql>-->
+
+    <select id="selectScoreSum" resultType="java.lang.Integer">
+        SELECT COALESCE(sum(score),0) as score from rank_list where songListId = #{0} ;
+    </select>
+
+    <select id="selectUserRank" resultType="java.lang.Integer" parameterType="com.example.musicserver.model.domain.RankList">
+        select score
+        from rank_list
+        where consumerId = #{consumerId} and songListId = #{songListId}
+    </select>
+
+</mapper>
